@@ -9,55 +9,41 @@
 <body>
 
 @if(session('success'))
-    <div class="alert alert-success">
+    <div id="flash-alert" class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
     </div>
 @endif
 
 
-    <table class="table">
-        <thead>
-            <tr>
-                <td>name</td>
-            </tr>
-            <tr>Action</tr>
-        </thead>
-        <tbody>
-           
-                @foreach ($data as $client )
-                 <tr>
-                     <td>{{ $client->name }}</td>
-                 </tr>
-                 <tr>
-                    <td>
-                        <a href="{{ route('client.edit',$client->id) }}">Editer</a>
-                        <form action="{{ route('client.destroy', $client->id) }}" method="post">
-                            @csrf   
-                             @method('DELETE')
-                            <input type="submit" value="supprimer">
-                        </form>
-                    </td>
-                 </tr>
-           
-                @endforeach
-                
-        </tbody>
-    </table>
 
-    <h2>Composant table</h2>
+<a href="{{route('client.create') }}" class="btn btn-primary">Ajouter</a>
+<main>
    <x-table 
     :data="$data"
     :headers="[
         'id' => 'ID',
-        'name' => 'Nom',
-        'email' => 'Courriel',
-        'created_at' => 'Créé le',
-        'updated_at' => 'Mis à jour le'
+        'name' => 'Nom'
     ]"
    route-name="client"
 />
 
+</main>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Disparition automatique de l'alerte après 60 secondes
+    setTimeout(() => {
+        const alert = document.getElementById('flash-alert');
+        if (alert) {
+            alert.classList.remove('show'); // effet Bootstrap
+            alert.classList.add('fade'); // pour bien le cacher visuellement
+            setTimeout(() => alert.remove(), 500); // suppression du DOM
+        }
+    }, 60000); // 60 000 ms = 60 secondes
+</script>
+
 </body>
 
 </html>
