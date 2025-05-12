@@ -1,5 +1,4 @@
-   <form action="{{ (isset($client)) ? route('client.update', $client->id) : route('client.store') }}
-" method="post">
+   <form action="{{ (isset($client)) ? route('client.update', $client->id) : route('client.store') }}" method="post">
       @csrf
       @if(isset($client))
         @method('PUT')

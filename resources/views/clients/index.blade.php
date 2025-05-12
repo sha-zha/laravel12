@@ -54,7 +54,10 @@
         'created_at' => 'Créé le',
         'updated_at' => 'Mis à jour le'
     ]"
+   route-name="client"
 />
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

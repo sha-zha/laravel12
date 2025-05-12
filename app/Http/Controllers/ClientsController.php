@@ -16,7 +16,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $data = Client::all();
+        $data = Client::addSelect(['id','name'])->orderByDesc('id')->get();
         return View('clients.index', compact('data'));
     }
 
@@ -42,7 +42,7 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(clients $clients)
+    public function show(Client $clients)
     {
         //
     }
