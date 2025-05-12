@@ -14,6 +14,7 @@
     </div>
 @endif
 
+
     <table class="table">
         <thead>
             <tr>
@@ -42,5 +43,18 @@
                 
         </tbody>
     </table>
+
+    <h2>Composant table</h2>
+   <x-table 
+    :data="$data"
+    :headers="[
+        'id' => 'ID',
+        'name' => 'Nom',
+        'email' => 'Courriel',
+        'created_at' => 'Créé le',
+        'updated_at' => 'Mis à jour le'
+    ]"
+/>
+
 </body>
 </html>
