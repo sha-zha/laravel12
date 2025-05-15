@@ -10,11 +10,7 @@ class Calendar extends Component
 {
     public $events = [];
     public $showModal = false;
-    public $eventId = null;
-    public $title = '';
-    public $start = '';
-    public $end = '';
-
+    public $data = [];
     public function mount()
     {
         $this->loadEvents();
