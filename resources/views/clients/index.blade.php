@@ -19,19 +19,17 @@
 
 <a href="{{route('client.create') }}" class="btn btn-primary">Ajouter</a>
 <main>
-   <x-table 
-    :data="$data"
-    :headers="[
-        'id' => 'ID',
-        'name' => 'Nom'
-    ]"
-   route-name="client"
-/>
+
+  @livewire('calendar')
+
+
 
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-
+@livewireScripts
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/main.min.js'></script>
+    @stack('scripts')
 <script>
     // Disparition automatique de l'alerte après 60 secondes
     setTimeout(() => {
