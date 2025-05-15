@@ -11,6 +11,11 @@ class Calendar extends Component
     public $events = [];
     public $showModal = false;
     public $data = [];
+     public $eventId = null;
+    public $title = '';
+    public $start = '';
+    public $end = '';
+
     public function mount()
     {
         $this->loadEvents();
@@ -27,18 +32,18 @@ class Calendar extends Component
     }
 
     #[On('openCreateModal')]
-    public function openCreateModal($start, $end)
+    public function openCreateModal($data)
     {
         $this->resetForm();
-        $this->start = $start;
-        $this->end = $end;
+        $this->start = $data['start'];
+        $this->end = $data['end'];
         $this->showModal = true;
     }
 
     #[On('openEditModal')]
-    public function openEditModal($id)
+    public function openEditModal($data)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::findOrFail($data['id']);
         $this->eventId = $event->id;
         $this->title = $event->title;
         $this->start = $event->start;
@@ -48,6 +53,7 @@ class Calendar extends Component
 
     public function save()
     {
+     
         $this->validate([
             'title' => 'required',
             'start' => 'required|date',
@@ -58,13 +64,15 @@ class Calendar extends Component
             ['id' => $this->eventId],
             ['title' => $this->title, 'start' => $this->start, 'end' => $this->end]
         );
-
-        $this->dispatch('eventSaved', [
+        $this->events = collect($this->events)
+        ->push([
             'id' => $event->id,
             'title' => $event->title,
             'start' => $event->start,
             'end' => $event->end
-        ]);
+        ])
+        ->toArray();
+        $this->dispatch('eventSaved', $this->events);
 
         $this->resetForm();
         $this->showModal = false;
