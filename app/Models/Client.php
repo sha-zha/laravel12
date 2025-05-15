@@ -11,4 +11,8 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+     public function planners() {
+        return $this->hasMany(Planner::class);
+    }
 }
