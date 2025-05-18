@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Carbon\Carbon;
-
+use App\Models\Client;
 class Calendar extends Component
 {
     public $events = [];
@@ -20,19 +20,35 @@ class Calendar extends Component
     public $title = '';
     public $start = '';
     public $end = '';
-
+    public ?Client $client = null;
     public $clients = [];
 
-    public function mount()
+    public function mount($client = null)
     {
+        if ($client instanceof Client) {
+            $this->client = $client;
+        } elseif (is_numeric($client)) {
+            $this->client = Client::find($client);
+        }
+
         $this->loadEvents();
     }
 
     public function loadEvents()
     {
+         if ( $this->client instanceof Client) {
+             $plans = Planner::with(['events','tasks', 'client'])
+             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+             ->where('client_id',$this->client->id)->get();
 
-        $plans = Planner::with(['events','tasks', 'client'])->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
-        $events = [];
+        } else {
+            $plans = Planner::with(['events','tasks', 'client'])
+            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->get();
+      
+        }
+
+         $events = [];
         $tasks = [];
         $clients =[];
     foreach ($plans as $plan) {

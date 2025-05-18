@@ -20,7 +20,7 @@
 <a href="{{route('client.create') }}" class="btn btn-primary">Ajouter</a>
 <main>
 
-  @livewire('calendar')
+    <livewire:calendar/>
 
 </main>
 

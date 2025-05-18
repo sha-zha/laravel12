@@ -16,7 +16,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $data = Client::addSelect(['id','name'])->orderByDesc('id')->get();
+        $data = Client::addSelect(['id','name'])->orderByDesc('id')->first();
         return View('clients.index', compact('data'));
     }
 
